@@ -1,0 +1,49 @@
+{
+  "name": "claude-guardrails",
+  "version": "0.1.0",
+  "description": "Cost & safety guardrails for autonomous Claude Code agents — hooks that stop runaway spend, destructive commands, and prompt injection.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Adam Sacharowitz",
+  "keywords": [
+    "claude-code",
+    "claude",
+    "hooks",
+    "ai-agents",
+    "guardrails",
+    "agent-safety",
+    "cost-control",
+    "prompt-injection"
+  ],
+  "bin": {
+    "claude-guardrails": "dist/cli/install.js"
+  },
+  "files": [
+    "dist",
+    "guardrails.config.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "check": "npm run typecheck && npm run lint && npm run test",
+    "install-hooks": "node dist/cli/install.js"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@types/node": "^22.10.0",
+    "@vitest/coverage-v8": "^2.1.8",
+    "eslint": "^9.17.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.0",
+    "vitest": "^2.1.8"
+  }
+}

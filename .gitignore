@@ -1,0 +1,11 @@
+node_modules/
+dist/
+coverage/
+*.log
+.env
+.env.*
+.DS_Store
+.vscode/
+.idea/
+# local test artifacts
+.claude/cost-ledger.jsonl
