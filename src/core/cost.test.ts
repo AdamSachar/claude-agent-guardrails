@@ -65,7 +65,7 @@ describe("ledger + velocity", () => {
     const entries = [
       { ts: now - 1000, cost_usd: 1 },
       { ts: now - 10 * 60 * 1000, cost_usd: 2 }, // 10 min ago
-      { ts: now - 2 * 60 * 60 * 1000, cost_usd: 5 }, // 2h ago — excluded from 1h window
+      { ts: now - 2 * 60 * 60 * 1000, cost_usd: 5 }, // 2h ago - excluded from 1h window
     ];
     expect(spendInWindow(entries, now, 60 * 60 * 1000)).toBe(3);
   });

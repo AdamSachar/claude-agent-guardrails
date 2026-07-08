@@ -52,7 +52,7 @@ export interface HookOutput {
   };
 }
 
-/** Parse raw stdin text into a HookInput. Never throws — returns {} on bad input. */
+/** Parse raw stdin text into a HookInput. Never throws - returns {} on bad input. */
 export function parseHookInput(raw: string): HookInput {
   if (!raw || !raw.trim()) return {};
   try {

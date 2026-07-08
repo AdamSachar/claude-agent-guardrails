@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * Installer — wires the guardrail hooks into a project's .claude/settings.json
+ * Installer: wires the guardrail hooks into a project's .claude/settings.json
  * and drops a starter guardrails.config.json. Idempotent: re-running won't add
  * duplicate entries.
  *
- *   npx claude-guardrails            # install into the current directory
- *   npx claude-guardrails /path/to/project
+ *   npx claude-agent-guardrails            # install into the current directory
+ *   npx claude-agent-guardrails /path/to/project
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync, copyFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
@@ -25,7 +25,7 @@ interface Settings {
   [k: string]: unknown;
 }
 
-const TAG = "claude-guardrails";
+const TAG = "claude-agent-guardrails";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const pkgRoot = resolve(here, "../..");
@@ -47,7 +47,7 @@ function loadSettings(): Settings {
   try {
     return JSON.parse(readFileSync(settingsPath, "utf8")) as Settings;
   } catch {
-    console.error(`! Could not parse ${settingsPath} — aborting to avoid clobbering it.`);
+    console.error(`! Could not parse ${settingsPath}. Aborting to avoid clobbering it.`);
     process.exit(1);
   }
 }
@@ -75,7 +75,7 @@ function main(): void {
   const hooks: HooksConfig = settings.hooks ?? {};
 
   if (alreadyInstalled(hooks)) {
-    console.log("✓ claude-guardrails hooks already installed — nothing to do.");
+    console.log("claude-agent-guardrails hooks already installed. Nothing to do.");
   } else {
     for (const { event, matcher, script } of PLAN) {
       addHook(hooks, event, matcher, `node "${resolve(hookDir, script)}"`);
@@ -83,16 +83,16 @@ function main(): void {
     settings.hooks = hooks;
     mkdirSync(claudeDir, { recursive: true });
     writeFileSync(settingsPath, JSON.stringify(settings, null, 2) + "\n");
-    console.log(`✓ Wired 4 guardrail hooks into ${settingsPath}`);
+    console.log(`Wired 4 guardrail hooks into ${settingsPath}`);
   }
 
   // Drop a starter config if the project doesn't have one yet.
   const cfgDest = resolve(targetDir, "guardrails.config.json");
   if (!existsSync(cfgDest)) {
     copyFileSync(resolve(pkgRoot, "guardrails.config.json"), cfgDest);
-    console.log(`✓ Wrote starter ${cfgDest}`);
+    console.log(`Wrote starter ${cfgDest}`);
   } else {
-    console.log("• guardrails.config.json already present — left as-is.");
+    console.log("guardrails.config.json already present. Left as-is.");
   }
 
   console.log(

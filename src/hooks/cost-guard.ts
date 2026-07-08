@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * cost-guard — PreToolUse(Bash). Predicts a Bash command's cost and DENIES it
+ * cost-guard - PreToolUse(Bash). Predicts a Bash command's cost and DENIES it
  * if it exceeds the per-dispatch budget. The headline guardrail: an autonomous
  * agent can't run away with your bill.
  */

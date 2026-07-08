@@ -1,5 +1,5 @@
 /**
- * Command policy gate — deny destructive / secret-exfil commands, optionally
+ * Command policy gate - deny destructive / secret-exfil commands, optionally
  * "ask" on sensitive ones. Pattern-based and fully config-driven.
  *
  * Generalized from the octopus-starter-kit permission deny-list.
@@ -31,7 +31,7 @@ function firstMatch(command: string, patterns: string[]): string | null {
 
 /**
  * Evaluate a Bash command against the policy. Deny wins over ask; ask wins over
- * allow. Empty command → allow.
+ * allow. Empty command -> allow.
  */
 export function evaluateCommand(command: string, cfg: PolicyConfig): PolicyVerdict {
   if (!command) return { decision: "allow" };
@@ -43,7 +43,7 @@ export function evaluateCommand(command: string, cfg: PolicyConfig): PolicyVerdi
       pattern: denied,
       reason:
         cfg.reason ??
-        `Command matched a blocked pattern (${denied}) and was denied by claude-guardrails.`,
+        `Command matched a blocked pattern (${denied}) and was denied by claude-agent-guardrails.`,
     };
   }
 

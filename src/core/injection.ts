@@ -3,7 +3,7 @@
  *
  * Catches embedded "ignore previous instructions"-style payloads + invisible
  * Unicode before they enter the agent's context. Generalized from the GSD
- * prompt-guard. Advisory by default — surfaces, does not deadlock.
+ * prompt-guard. Advisory by default - surfaces, does not deadlock.
  */
 
 export const DEFAULT_INJECTION_PATTERNS: string[] = [

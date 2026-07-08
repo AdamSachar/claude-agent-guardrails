@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * injection-guard — PreToolUse(Write|Edit). Scans content being written into
+ * injection-guard - PreToolUse(Write|Edit). Scans content being written into
  * agent-context files (CLAUDE.md, .planning/, etc.) for prompt-injection
  * payloads + invisible Unicode. Advisory by default (mode: "warn"); can escalate
  * to "ask" or "deny" via guardrails.config.json.
@@ -36,7 +36,7 @@ const detail = [...finding.patterns, finding.invisibleUnicode ? "invisible-unico
   .join(", ");
 const message =
   `⚠️ Possible prompt injection in ${basename(filePath)} (${detail}). This text will enter ` +
-  `agent context — review it for embedded instructions before proceeding. If it's legitimate ` +
+  `agent context - review it for embedded instructions before proceeding. If it's legitimate ` +
   `(e.g. docs about prompt injection), continue.`;
 
 if (cfg.injection.mode === "deny") emit(preToolDeny(message));

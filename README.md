@@ -1,111 +1,145 @@
-# claude-guardrails
+# claude-agent-guardrails
 
-> **Cost & safety guardrails for autonomous Claude Code agents.** Four hooks that stop
-> runaway spend, destructive commands, and prompt injection — before they happen.
+Cost and safety guardrails for autonomous Claude Code agents.
 
-[![CI](https://github.com/USER/claude-guardrails/actions/workflows/ci.yml/badge.svg)](https://github.com/USER/claude-guardrails/actions/workflows/ci.yml)
+[![CI](https://github.com/AdamSachar/claude-agent-guardrails/actions/workflows/ci.yml/badge.svg)](https://github.com/AdamSachar/claude-agent-guardrails/actions/workflows/ci.yml)
 ![License](https://img.shields.io/badge/license-MIT-blue)
-![types](https://img.shields.io/badge/types-TypeScript-blue)
+![TypeScript](https://img.shields.io/badge/types-TypeScript-blue)
 
-<!-- demo GIF here: a denied over-budget dispatch + a blocked `rm -rf /` -->
+`claude-agent-guardrails` installs four Claude Code hooks that stop common autonomous-agent failures before they happen:
 
-## The problem
-
-Autonomous coding agents are great until the night they fan out 30 parallel sub-agents and
-burn your month's budget in an hour, run a destructive command, or quietly ingest a
-prompt-injection payload from a file they were told to read. Claude Code's hook system can
-prevent all three — but writing correct hooks (current stdin/JSON contract, `permissionDecision`
-semantics, no false-positive deadlocks) is fiddly. This is that, done right, in one install.
-
-## What it does
-
-Four hooks, wired via `.claude/settings.json`:
-
-| Hook | Event | What it does |
+| Hook | Event | What it prevents |
 |---|---|---|
-| **cost-guard** | `PreToolUse(Bash)` | Predicts a command's $ cost and **denies** it if it exceeds your per-dispatch cap. |
-| **cost-velocity** | `PostToolUse(*)` | Reads a spend ledger and **warns** when the last hour's burn-rate would blow the daily budget. |
-| **policy-gate** | `PreToolUse(Bash)` | **Denies** destructive / secret-exfil commands (`rm -rf /`, `cat ~/.ssh/*`, `curl … | sh`), **asks** on sensitive ones (`sudo`, force-push). |
-| **injection-guard** | `PreToolUse(Write\|Edit)` | Scans writes to agent-context files (`CLAUDE.md`, `.planning/`, …) for prompt-injection patterns + invisible Unicode. Advisory by default. |
+| `cost-guard` | `PreToolUse(Bash)` | A single agent dispatch exceeding your cost cap. |
+| `cost-velocity` | `PostToolUse(*)` | A session burning through the daily budget too quickly. |
+| `policy-gate` | `PreToolUse(Bash)` | Destructive shell commands, secret reads, and risky force pushes. |
+| `injection-guard` | `PreToolUse(Write\|Edit)` | Prompt-injection text being written into agent context files. |
 
-All decisions use the sanctioned **exit-0 + JSON** control path (`hookSpecificOutput.permissionDecision`),
-not brittle exit codes. Pure, tested core logic; thin hook entrypoints.
+The project is built for people who run Claude Code on real repositories and need deterministic guardrails around autonomous sessions.
+
+## Why this exists
+
+Claude Code hooks are powerful, but correct hook wiring is easy to get wrong. This package gives maintainers a tested default:
+
+- Uses Claude Code's supported hook JSON path.
+- Keeps security logic in pure TypeScript modules with unit tests.
+- Installs idempotently into `.claude/settings.json`.
+- Ships a starter `guardrails.config.json`.
+- Lets teams tune thresholds without editing hook code.
 
 ## Install
 
 ```bash
-npx claude-guardrails            # into the current project
-# or
-npx claude-guardrails /path/to/project
+npx claude-agent-guardrails
 ```
 
-This wires the four hooks into `.claude/settings.json` (idempotent) and drops a starter
-`guardrails.config.json`. Restart Claude Code in the project and you're protected.
+Install into another project:
 
-Manual install: `git clone … && npm install && npm run build && node dist/cli/install.js /path/to/project`.
+```bash
+npx claude-agent-guardrails /path/to/project
+```
+
+Then restart Claude Code in that project.
 
 ## Configure
 
-Edit `guardrails.config.json` in your project. Everything is tunable:
+Edit `guardrails.config.json`:
 
 ```jsonc
 {
   "cost": {
-    "maxPerDispatchUSD": 2,            // deny a single Bash dispatch over this
+    "maxPerDispatchUSD": 2,
     "dailyBudgetUSD": 50,
-    "maxPerHourPctOfDaily": 10,        // alarm if >10% of daily spent in 1h
+    "maxPerHourPctOfDaily": 10,
     "ledgerPath": ".claude/cost-ledger.jsonl",
-    "rules": [                          // YOUR costly-command patterns
-      { "pattern": "claude\\s+-p\\b", "estimatedUSD": 0.5, "label": "headless dispatch" },
-      { "pattern": "--parallel(?:=|\\s+)(\\d+)", "estimatedUSD": 0,
-        "perMatchGroupUSD": 0.2, "label": "parallel fan-out (per worker)" }
+    "rules": [
+      { "pattern": "claude\\s+-p\\b", "estimatedUSD": 0.5, "label": "headless Claude dispatch" },
+      {
+        "pattern": "--parallel(?:=|\\s+)(\\d+)",
+        "estimatedUSD": 0,
+        "perMatchGroupUSD": 0.2,
+        "label": "parallel fan-out"
+      }
     ]
   },
-  "policy": { "denyPatterns": ["rm\\s+-rf\\s+/(?:\\s|$)", "..."], "askPatterns": ["\\bsudo\\b"] },
-  "injection": { "enabled": true, "mode": "warn", "watchSubstrings": [".planning/", "CLAUDE.md"] }
+  "policy": {
+    "denyPatterns": ["rm\\s+-rf\\s+/(?:\\s|$)"],
+    "askPatterns": ["\\bsudo\\b"]
+  },
+  "injection": {
+    "enabled": true,
+    "mode": "warn",
+    "watchSubstrings": [".planning/", "CLAUDE.md", "AGENTS.md", ".claude/"]
+  }
 }
 ```
 
-**Env overrides** (win over the file): `CLAUDE_GUARDRAILS_MAX_PER_DISPATCH_USD`,
-`CLAUDE_GUARDRAILS_DAILY_BUDGET_USD`, `CLAUDE_GUARDRAILS_MAX_PER_HOUR_PCT`,
-`CLAUDE_GUARDRAILS_LEDGER_PATH`, `CLAUDE_GUARDRAILS_INJECTION_MODE`.
-**Kill switch:** `CLAUDE_GUARDRAILS_DISABLE=1` no-ops every hook.
+Environment overrides:
 
-### Cost ledger
+- `CLAUDE_GUARDRAILS_MAX_PER_DISPATCH_USD`
+- `CLAUDE_GUARDRAILS_DAILY_BUDGET_USD`
+- `CLAUDE_GUARDRAILS_MAX_PER_HOUR_PCT`
+- `CLAUDE_GUARDRAILS_LEDGER_PATH`
+- `CLAUDE_GUARDRAILS_INJECTION_MODE`
+- `CLAUDE_GUARDRAILS_DISABLE=1`
 
-`cost-velocity` reads a JSONL ledger you append to (one object per line):
+## Real hook output
 
-```jsonl
-{"ts": 1733320000000, "cost_usd": 0.42, "label": "opus dispatch"}
+Over-budget dispatch:
+
+```bash
+echo '{"tool_name":"Bash","tool_input":{"command":"run --parallel=20 agents"}}' \
+  | node dist/hooks/cost-guard.js
 ```
 
-If the file doesn't exist, the hook is a no-op — adopt it when you start logging spend.
+Output:
 
-## How it behaves (real hook output)
-
+```json
+{
+  "hookSpecificOutput": {
+    "hookEventName": "PreToolUse",
+    "permissionDecision": "deny",
+    "permissionDecisionReason": "Predicted cost $4.00 exceeds the per-dispatch cap of $2."
+  }
+}
 ```
-# over-budget dispatch → DENIED
-$ echo '{"tool_name":"Bash","tool_input":{"command":"run --parallel=20 agents"}}' | node dist/hooks/cost-guard.js
-{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny",
- "permissionDecisionReason":"Predicted cost $4.00 exceeds the per-dispatch cap of $2 ..."}}
 
-# rm -rf /  → DENIED ;  ls -la → allowed (no output)
+## Project structure
+
+- `src/core/`: pure policy, cost, injection, config, and protocol logic.
+- `src/hooks/`: thin Claude Code hook entrypoints.
+- `src/cli/install.ts`: idempotent installer.
+- `.github/`: CI, issue templates, and contributor workflow.
+
+## Development
+
+```bash
+npm install
+npm run check
+npm run build
+npm run pack:dry
 ```
 
-## Design
+Current verification:
 
-- `src/core/` — pure, unit-tested logic (`cost`, `policy`, `injection`, `config`, `protocol`). 37 tests.
-- `src/hooks/` — thin entrypoints: read stdin → call core → emit decision.
-- `src/cli/install.ts` — idempotent settings.json wiring.
-
-Why pure core + thin hooks: the security-relevant logic is testable without spawning a real
-agent, and the hooks stay trivially correct.
+- 37 unit tests.
+- TypeScript typecheck.
+- ESLint.
+- MIT license.
 
 ## Roadmap
 
-- `context-monitor` hook (inject "wrap up" warnings as context fills)
-- read-receipt gate (must load CLAUDE.md before edits)
-- ledger auto-append helper + a `costs` report command
+- Context window warning hook.
+- Read-receipt gate for `CLAUDE.md` and `AGENTS.md`.
+- Cost ledger auto-append helper.
+- `costs` report command.
+- Contributor examples for real Claude Code workflows.
+
+## Contributing
+
+Bug reports, hook ideas, and small test cases are welcome. The best first contribution is a new failing fixture for a command that should be denied, asked, or allowed.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 

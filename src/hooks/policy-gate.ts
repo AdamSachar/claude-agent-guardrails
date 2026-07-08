@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * policy-gate — PreToolUse(Bash). Denies destructive / secret-exfil commands
+ * policy-gate - PreToolUse(Bash). Denies destructive / secret-exfil commands
  * and asks for confirmation on sensitive ones. Config-driven deny/ask patterns.
  */
 import {

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * cost-velocity — PostToolUse(*). Reads a JSONL spend ledger and warns (does
+ * cost-velocity - PostToolUse(*). Reads a JSONL spend ledger and warns (does
  * NOT block) when the last hour's burn-rate would exhaust the daily budget too
  * fast. Append entries to the ledger as {"ts": <ms>, "cost_usd": <n>}.
  */

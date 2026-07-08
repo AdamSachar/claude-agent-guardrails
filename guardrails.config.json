@@ -1,5 +1,5 @@
 {
-  "$comment": "claude-guardrails config. Tune to your project. All thresholds env-overridable (see README). Cost rules are EXAMPLES — add patterns that match your actual costly commands.",
+  "$comment": "claude-agent-guardrails config. Tune to your project. All thresholds env-overridable (see README). Cost rules are EXAMPLES - add patterns that match your actual costly commands.",
   "cost": {
     "maxPerDispatchUSD": 2,
     "dailyBudgetUSD": 50,
@@ -13,7 +13,7 @@
     ]
   },
   "policy": {
-    "reason": "Blocked by claude-guardrails policy gate. Override via an explicit operator decision.",
+    "reason": "Blocked by claude-agent-guardrails policy gate. Override via an explicit operator decision.",
     "denyPatterns": [
       "rm\\s+-rf\\s+/(?:\\s|$)",
       "rm\\s+-rf\\s+~",

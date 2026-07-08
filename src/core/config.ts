@@ -50,7 +50,7 @@ export const DEFAULT_CONFIG: GuardrailsConfig = {
     ],
   },
   policy: {
-    reason: "Blocked by claude-guardrails policy gate. Override via an explicit operator decision.",
+    reason: "Blocked by claude-agent-guardrails policy gate. Override via an explicit operator decision.",
     denyPatterns: [
       "rm\\s+-rf\\s+/(?:\\s|$)",
       "rm\\s+-rf\\s+~",
@@ -141,7 +141,7 @@ export function loadConfig(cwd: string, env: NodeJS.ProcessEnv = process.env): G
   return resolveConfig(fileConfig, env);
 }
 
-/** Global kill switch — set CLAUDE_GUARDRAILS_DISABLE=1 to no-op all hooks. */
+/** Global kill switch - set CLAUDE_GUARDRAILS_DISABLE=1 to no-op all hooks. */
 export function guardrailsDisabled(env: NodeJS.ProcessEnv = process.env): boolean {
   return Boolean(env.CLAUDE_GUARDRAILS_DISABLE);
 }
