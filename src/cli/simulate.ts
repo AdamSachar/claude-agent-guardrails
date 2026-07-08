@@ -7,7 +7,7 @@
  *   claude-agent-guardrails-sim policy-gate examples/policy-deny.json
  */
 import { spawnSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, realpathSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -98,6 +98,17 @@ function main(): number {
   return result.status ?? 1;
 }
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
+function isCliEntrypoint(): boolean {
+  const argvPath = process.argv[1];
+  if (!argvPath) return false;
+  const modulePath = fileURLToPath(import.meta.url);
+  try {
+    return realpathSync(argvPath) === modulePath;
+  } catch {
+    return resolve(argvPath) === modulePath;
+  }
+}
+
+if (isCliEntrypoint()) {
   process.exit(main());
 }

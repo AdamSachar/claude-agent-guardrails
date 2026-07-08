@@ -23,8 +23,8 @@ This package turns those risks into deterministic hooks with tests. It is intent
 - Six hook entrypoints.
 - Pure core modules with unit tests.
 - CI, issue templates, pull request template, Dependabot, and security policy.
+- Published npm package.
 - Installable GitHub release tarball.
-- npm-ready package metadata and dry-pack verification.
 
 ## Honest current limitation
 

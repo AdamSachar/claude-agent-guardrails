@@ -13,13 +13,13 @@ This file tracks the public launch state.
 
 ## npm setup
 
-- [ ] Confirm package name is still available: `npm view claude-agent-guardrails`.
-- [ ] Log into npm. Blocked until Adam signs in with `npm adduser`.
-- [ ] Run `npm run check`.
-- [ ] Run `npm run build`.
-- [ ] Run `npm run pack:dry`.
-- [ ] Publish with `npm publish --access public`.
-- [ ] Confirm `npx claude-agent-guardrails` installs into a throwaway project.
+- [x] Confirm package name is still available: `npm view claude-agent-guardrails`.
+- [x] Log into npm.
+- [x] Run `npm run check`.
+- [x] Run `npm run build`.
+- [x] Run `npm run pack:dry`.
+- [x] Publish with `npm publish --access public`.
+- [x] Confirm `npx claude-agent-guardrails` installs into a throwaway project.
 - [x] Attach installable npm tarball to GitHub release as the interim install path.
 - [x] Smoke-test release tarball install in a throwaway project.
 

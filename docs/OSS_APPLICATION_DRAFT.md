@@ -17,7 +17,7 @@ It packages six Claude Code hooks:
 - `instruction-receipt`: reminds agents to read local repo instructions before real work.
 - `context-budget`: warns on oversized prompts and transcripts before long runs drift.
 
-The project is meant to be both a usable package and a reference implementation for safe Claude Code hooks. It includes pure core modules, thin hook entrypoints, an installer CLI, a hook simulator CLI, example payloads, CI, Dependabot, issue templates, security policy, OpenSSF Scorecard workflow, 47 unit tests, and dry-pack verification. The public GitHub release includes an installable npm tarball; npm registry publish is next once account login is complete.
+The project is meant to be both a usable package and a reference implementation for safe Claude Code hooks. It includes pure core modules, thin hook entrypoints, an installer CLI, a hook simulator CLI, example payloads, CI, Dependabot, issue templates, security policy, OpenSSF Scorecard workflow, 47 unit tests, npm publish, and dry-pack verification.
 
 This is an early project rather than a mature package with large download numbers. I am applying under the program's "ecosystem quietly depends on it" clause because Claude Code adoption is moving faster than hook-policy examples and safety defaults. The project gives maintainers a copyable baseline for cost control, command policy, context hygiene, and prompt-injection handling without a cloud service or telemetry.
 
@@ -45,6 +45,7 @@ Current receipts before public submission:
 - `npm run check` passes.
 - `npm run build` passes.
 - `npm run pack:dry` passes.
+- npm package is published.
 - GitHub release tarball is installable.
 - Simulator CLI works.
 - Hook demos return valid Claude Code hook JSON.

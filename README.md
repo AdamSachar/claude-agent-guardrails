@@ -35,28 +35,11 @@ Claude Code hooks are powerful, but correct hook wiring is easy to get wrong. Th
 
 ## Install
 
-Install from the GitHub release:
-
-```bash
-npm install -g https://github.com/AdamSachar/claude-agent-guardrails/releases/download/v0.2.0/claude-agent-guardrails-0.2.0.tgz
-claude-agent-guardrails
-```
-
-Install into another project:
-
-```bash
-claude-agent-guardrails /path/to/project
-```
-
-The npm package name is reserved for public npm release, but the GitHub release tarball is installable now.
-
-After npm publish, this shorter install path will work:
-
 ```bash
 npx claude-agent-guardrails
 ```
 
-After npm publish, install into another project:
+Install into another project:
 
 ```bash
 npx claude-agent-guardrails /path/to/project
@@ -67,8 +50,8 @@ Then restart Claude Code in that project.
 Test a hook before installing:
 
 ```bash
-npx claude-agent-guardrails-sim cost-guard
-npx claude-agent-guardrails-sim policy-gate examples/policy-deny.json
+npm exec --package claude-agent-guardrails -- claude-agent-guardrails-sim cost-guard
+npm exec --package claude-agent-guardrails -- claude-agent-guardrails-sim policy-gate examples/policy-deny.json
 ```
 
 ## Configure
