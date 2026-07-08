@@ -1,0 +1,6 @@
+{
+  "tool_name": "Bash",
+  "tool_input": {
+    "command": "claude -p \"audit this\" --parallel=20"
+  }
+}

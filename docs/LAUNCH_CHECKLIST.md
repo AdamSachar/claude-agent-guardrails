@@ -4,7 +4,7 @@ Nothing in this file has been pushed, published, or submitted yet.
 
 ## Repo setup
 
-- [ ] Rename local folder or create public repo as `claude-agent-guardrails`.
+- [ ] Create public repo as `claude-agent-guardrails`.
 - [ ] Create public GitHub repo under Adam's account.
 - [ ] Push local repo.
 - [ ] Confirm default branch is `main`.
@@ -36,4 +36,4 @@ Nothing in this file has been pushed, published, or submitted yet.
 - [ ] Select the new public repo.
 - [ ] Paste `docs/OSS_APPLICATION_DRAFT.md` answers.
 - [ ] Include npm and CI receipts.
-- [ ] Mention this is an early but high-relevance project for Claude Code maintainers.
+- [ ] Say plainly that this is early, but highly relevant to Claude Code maintainers.

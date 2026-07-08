@@ -1,12 +1,12 @@
 # claude-agent-guardrails
 
-Cost and safety guardrails for autonomous Claude Code agents.
+Deterministic cost, policy, context, and prompt-injection guardrails for Claude Code agents.
 
 [![CI](https://github.com/AdamSachar/claude-agent-guardrails/actions/workflows/ci.yml/badge.svg)](https://github.com/AdamSachar/claude-agent-guardrails/actions/workflows/ci.yml)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![TypeScript](https://img.shields.io/badge/types-TypeScript-blue)
 
-`claude-agent-guardrails` installs four Claude Code hooks that stop common autonomous-agent failures before they happen:
+`claude-agent-guardrails` installs six Claude Code hooks that stop common autonomous-agent failures before they happen:
 
 | Hook | Event | What it prevents |
 |---|---|---|
@@ -14,6 +14,8 @@ Cost and safety guardrails for autonomous Claude Code agents.
 | `cost-velocity` | `PostToolUse(*)` | A session burning through the daily budget too quickly. |
 | `policy-gate` | `PreToolUse(Bash)` | Destructive shell commands, secret reads, and risky force pushes. |
 | `injection-guard` | `PreToolUse(Write\|Edit)` | Prompt-injection text being written into agent context files. |
+| `instruction-receipt` | `UserPromptSubmit(*)` | Agents starting real work without reading local repo instructions. |
+| `context-budget` | `UserPromptSubmit(*)` | Oversized prompts or transcripts that make long autonomous runs drift. |
 
 The project is built for people who run Claude Code on real repositories and need deterministic guardrails around autonomous sessions.
 
@@ -26,6 +28,7 @@ Claude Code hooks are powerful, but correct hook wiring is easy to get wrong. Th
 - Installs idempotently into `.claude/settings.json`.
 - Ships a starter `guardrails.config.json`.
 - Lets teams tune thresholds without editing hook code.
+- Keeps the agent aware of `CLAUDE.md`, `AGENTS.md`, and context-size risk before work begins.
 
 ## Install
 
@@ -40,6 +43,13 @@ npx claude-agent-guardrails /path/to/project
 ```
 
 Then restart Claude Code in that project.
+
+Test a hook before installing:
+
+```bash
+npx claude-agent-guardrails-sim cost-guard
+npx claude-agent-guardrails-sim policy-gate examples/policy-deny.json
+```
 
 ## Configure
 
@@ -70,6 +80,15 @@ Edit `guardrails.config.json`:
     "enabled": true,
     "mode": "warn",
     "watchSubstrings": [".planning/", "CLAUDE.md", "AGENTS.md", ".claude/"]
+  },
+  "context": {
+    "maxPromptChars": 12000,
+    "maxTranscriptBytes": 2000000
+  },
+  "instructions": {
+    "enabled": true,
+    "instructionFiles": ["CLAUDE.md", "AGENTS.md", "README.md", ".claude/settings.json"],
+    "promptPatterns": ["\\bbuild\\b", "\\bfix\\b", "\\bimplement\\b", "\\btest\\b"]
   }
 }
 ```
@@ -81,6 +100,8 @@ Environment overrides:
 - `CLAUDE_GUARDRAILS_MAX_PER_HOUR_PCT`
 - `CLAUDE_GUARDRAILS_LEDGER_PATH`
 - `CLAUDE_GUARDRAILS_INJECTION_MODE`
+- `CLAUDE_GUARDRAILS_MAX_PROMPT_CHARS`
+- `CLAUDE_GUARDRAILS_MAX_TRANSCRIPT_BYTES`
 - `CLAUDE_GUARDRAILS_DISABLE=1`
 
 ## Real hook output
@@ -109,6 +130,8 @@ Output:
 - `src/core/`: pure policy, cost, injection, config, and protocol logic.
 - `src/hooks/`: thin Claude Code hook entrypoints.
 - `src/cli/install.ts`: idempotent installer.
+- `src/cli/simulate.ts`: local hook simulator for demos and debugging.
+- `examples/`: copy-paste Claude Code hook payloads.
 - `.github/`: CI, issue templates, and contributor workflow.
 
 ## Development
@@ -122,18 +145,16 @@ npm run pack:dry
 
 Current verification:
 
-- 37 unit tests.
+- 47 unit tests.
 - TypeScript typecheck.
 - ESLint.
 - MIT license.
 
 ## Roadmap
 
-- Context window warning hook.
-- Read-receipt gate for `CLAUDE.md` and `AGENTS.md`.
-- Cost ledger auto-append helper.
 - `costs` report command.
 - Contributor examples for real Claude Code workflows.
+- Cost ledger auto-append helper.
 
 ## Contributing
 

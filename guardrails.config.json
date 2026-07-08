@@ -41,5 +41,23 @@
     "enabled": true,
     "mode": "warn",
     "watchSubstrings": [".planning/", "CLAUDE.md", "AGENTS.md", ".claude/", ".context/", ".cursor/"]
+  },
+  "context": {
+    "maxPromptChars": 12000,
+    "maxTranscriptBytes": 2000000
+  },
+  "instructions": {
+    "enabled": true,
+    "instructionFiles": ["CLAUDE.md", "AGENTS.md", "README.md", ".claude/settings.json"],
+    "promptPatterns": [
+      "\\bbuild\\b",
+      "\\bfix\\b",
+      "\\bimplement\\b",
+      "\\bchange\\b",
+      "\\bedit\\b",
+      "\\brefactor\\b",
+      "\\btest\\b",
+      "\\bship\\b"
+    ]
   }
 }

@@ -25,10 +25,23 @@ export interface InjectionSettings {
   watchSubstrings: string[];
 }
 
+export interface ContextBudgetSettings {
+  maxPromptChars: number;
+  maxTranscriptBytes: number;
+}
+
+export interface InstructionReceiptSettings {
+  enabled: boolean;
+  instructionFiles: string[];
+  promptPatterns: string[];
+}
+
 export interface GuardrailsConfig {
   cost: CostSettings;
   policy: PolicyConfig;
   injection: InjectionSettings;
+  context: ContextBudgetSettings;
+  instructions: InstructionReceiptSettings;
 }
 
 export const DEFAULT_CONFIG: GuardrailsConfig = {
@@ -78,6 +91,24 @@ export const DEFAULT_CONFIG: GuardrailsConfig = {
     mode: "warn",
     watchSubstrings: [".planning/", "CLAUDE.md", "AGENTS.md", ".claude/", ".context/", ".cursor/"],
   },
+  context: {
+    maxPromptChars: 12000,
+    maxTranscriptBytes: 2_000_000,
+  },
+  instructions: {
+    enabled: true,
+    instructionFiles: ["CLAUDE.md", "AGENTS.md", "README.md", ".claude/settings.json"],
+    promptPatterns: [
+      "\\bbuild\\b",
+      "\\bfix\\b",
+      "\\bimplement\\b",
+      "\\bchange\\b",
+      "\\bedit\\b",
+      "\\brefactor\\b",
+      "\\btest\\b",
+      "\\bship\\b",
+    ],
+  },
 };
 
 type DeepPartial<T> = { [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K] };
@@ -98,6 +129,11 @@ export function resolveConfig(
     cost: { ...DEFAULT_CONFIG.cost, ...(f.cost as Partial<CostSettings>) },
     policy: { ...DEFAULT_CONFIG.policy, ...(f.policy as Partial<PolicyConfig>) },
     injection: { ...DEFAULT_CONFIG.injection, ...(f.injection as Partial<InjectionSettings>) },
+    context: { ...DEFAULT_CONFIG.context, ...(f.context as Partial<ContextBudgetSettings>) },
+    instructions: {
+      ...DEFAULT_CONFIG.instructions,
+      ...(f.instructions as Partial<InstructionReceiptSettings>),
+    },
   };
 
   // env overrides win over everything
@@ -117,6 +153,14 @@ export function resolveConfig(
 
   const mode = env.CLAUDE_GUARDRAILS_INJECTION_MODE;
   if (mode === "warn" || mode === "ask" || mode === "deny") merged.injection.mode = mode;
+  merged.context.maxPromptChars = num(
+    env.CLAUDE_GUARDRAILS_MAX_PROMPT_CHARS,
+    merged.context.maxPromptChars,
+  );
+  merged.context.maxTranscriptBytes = num(
+    env.CLAUDE_GUARDRAILS_MAX_TRANSCRIPT_BYTES,
+    merged.context.maxTranscriptBytes,
+  );
 
   return merged;
 }

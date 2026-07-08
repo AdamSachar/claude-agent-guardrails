@@ -1,7 +1,7 @@
 {
   "name": "claude-agent-guardrails",
-  "version": "0.1.0",
-  "description": "Cost and safety guardrails for autonomous Claude Code agents.",
+  "version": "0.2.0",
+  "description": "Deterministic cost, policy, context, and prompt-injection guardrails for Claude Code agents.",
   "type": "module",
   "license": "MIT",
   "author": "Adam Sacharowitz",
@@ -24,7 +24,8 @@
     "prompt-injection"
   ],
   "bin": {
-    "claude-agent-guardrails": "dist/cli/install.js"
+    "claude-agent-guardrails": "dist/cli/install.js",
+    "claude-agent-guardrails-sim": "dist/cli/simulate.js"
   },
   "files": [
     "dist",
@@ -32,6 +33,10 @@
     "README.md",
     "CONTRIBUTING.md",
     "SECURITY.md",
+    "CODE_OF_CONDUCT.md",
+    "IMPACT.md",
+    "ROADMAP.md",
+    "examples",
     "docs",
     "LICENSE"
   ],

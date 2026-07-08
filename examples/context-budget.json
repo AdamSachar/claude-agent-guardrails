@@ -1,0 +1,4 @@
+{
+  "hook_event_name": "UserPromptSubmit",
+  "prompt": "Paste a long prompt here to test context-budget warnings."
+}

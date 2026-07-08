@@ -6,6 +6,7 @@ import {
   preToolDeny,
   preToolAsk,
   preToolContext,
+  eventContext,
   systemWarning,
 } from "./protocol.js";
 
@@ -49,6 +50,9 @@ describe("output builders", () => {
   it("builds ask, context, and system-warning shapes", () => {
     expect(preToolAsk("?").hookSpecificOutput?.permissionDecision).toBe("ask");
     expect(preToolContext("ctx").hookSpecificOutput?.additionalContext).toBe("ctx");
+    expect(eventContext("UserPromptSubmit", "ctx").hookSpecificOutput?.hookEventName).toBe(
+      "UserPromptSubmit",
+    );
     expect(systemWarning("warn").systemMessage).toBe("warn");
   });
 });

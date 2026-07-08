@@ -4,30 +4,47 @@
 
 `https://github.com/AdamSachar/claude-agent-guardrails`
 
-## Project reach and impact
+## Tell us about the project's reach and impact
 
-`claude-agent-guardrails` is a TypeScript hook package for Claude Code that gives maintainers deterministic safety controls for autonomous coding agents. It installs four tested hooks: cost caps, cost velocity warnings, destructive-command policy gates, and prompt-injection warnings for agent context files.
+`claude-agent-guardrails` is an MIT-licensed TypeScript package for maintainers who run Claude Code on real repositories and want local, deterministic guardrails around autonomous agent behavior.
 
-The package is built for developers who let Claude Code work across real repositories and need guardrails around spend, shell commands, and context poisoning. The core logic is pure TypeScript with 37 unit tests, typecheck, lint, CI, MIT license, issue templates, security policy, and a one-command `npx` installer.
+It packages six Claude Code hooks:
 
-This does not yet meet the numeric thresholds for a mature dependency, but it directly serves a fast-growing open-source workflow: maintainers using Claude Code to operate on their own projects. The gap it fills is practical: Claude Code hooks are powerful, but safe defaults and correct JSON decision semantics are easy to get wrong. This package turns those patterns into reusable open-source infrastructure.
+- `cost-guard`: denies Bash commands that exceed a configured cost cap.
+- `cost-velocity`: warns when recent spend burns too much of a daily budget.
+- `policy-gate`: denies destructive commands, secret reads, and risky force pushes.
+- `injection-guard`: warns when prompt-injection text is written into agent context files.
+- `instruction-receipt`: reminds agents to read local repo instructions before real work.
+- `context-budget`: warns on oversized prompts and transcripts before long runs drift.
 
-## How I will use the subscription for the project
+The project is meant to be both a usable package and a reference implementation for safe Claude Code hooks. It includes pure core modules, thin hook entrypoints, a one-command installer, a hook simulator CLI, example payloads, CI, Dependabot, issue templates, security policy, OpenSSF Scorecard workflow, 47 unit tests, and dry-pack verification.
 
-I will use Claude Max to maintain and improve the project without passing those costs to users. The main work is security-sensitive and review-heavy: expanding the risky-command fixture set, testing hook behavior against real Claude Code workflows, writing clearer docs, triaging user reports, and adding new guardrails like context-window warnings and read-receipt gates for `CLAUDE.md` and `AGENTS.md`.
+This is an early project rather than a mature package with large download numbers. I am applying under the program's "ecosystem quietly depends on it" clause because Claude Code adoption is moving faster than hook-policy examples and safety defaults. The project gives maintainers a copyable baseline for cost control, command policy, context hygiene, and prompt-injection handling without a cloud service or telemetry.
 
-Claude Max is especially useful here because the project is about Claude Code itself. It lets me test the hooks in realistic sessions, generate and review edge-case payloads, and keep the package aligned with Claude Code's current hook contract.
+## How will you use the subscription for your project?
+
+I will use Claude Max to dogfood and maintain `claude-agent-guardrails` in real Claude Code sessions without charging users or adding telemetry.
+
+The work requires repeated Claude Code testing:
+
+- Keep hook behavior aligned with the current Claude Code hook contract.
+- Expand command-policy fixtures from real autonomous-agent failures.
+- Add a hook simulator output suite for every example payload.
+- Build recipes for monorepos, worktrees, and team presets.
+- Review bug reports and PRs for safety regressions.
+- Publish small releases quickly when Claude Code hook behavior changes.
+
+Claude Max is directly relevant because the project protects Claude Code operators. I need enough Claude usage to test the hooks under realistic sessions, capture edge cases, and document behavior accurately for maintainers.
 
 ## Other info
 
-The repository is being prepared for public launch under the name `claude-agent-guardrails` because the shorter npm name `claude-agent-guardrails` is already taken. Before submission I will publish the GitHub repo, publish the npm package, enable CI, add a demo GIF, and open beginner-friendly issues for external contributors.
+The package is local-first. It does not upload prompts, secrets, transcripts, or telemetry. It does not auto-execute commands. It only evaluates Claude Code hook payloads and returns Claude Code hook decisions.
 
-## Receipts to attach after launch
+Current receipts before public submission:
 
-- GitHub repository URL.
-- npm package URL.
-- CI passing badge.
-- `npm run check` output showing 37 tests passing.
-- `npm pack --dry-run` output.
-- Screenshot or GIF showing a blocked over-budget command.
-- Screenshot or GIF showing a destructive command being denied.
+- `npm run check` passes.
+- `npm run build` passes.
+- `npm run pack:dry` passes.
+- Simulator CLI works.
+- Hook demos return valid Claude Code hook JSON.
+- No paid API is required to use or test the package.

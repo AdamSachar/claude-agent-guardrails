@@ -39,6 +39,8 @@ const PLAN: { event: string; matcher: string; script: string }[] = [
   { event: "PreToolUse", matcher: "Bash", script: "policy-gate.js" },
   { event: "PreToolUse", matcher: "Bash", script: "cost-guard.js" },
   { event: "PreToolUse", matcher: "Write|Edit", script: "injection-guard.js" },
+  { event: "UserPromptSubmit", matcher: "*", script: "instruction-receipt.js" },
+  { event: "UserPromptSubmit", matcher: "*", script: "context-budget.js" },
   { event: "PostToolUse", matcher: "*", script: "cost-velocity.js" },
 ];
 
@@ -83,7 +85,7 @@ function main(): void {
     settings.hooks = hooks;
     mkdirSync(claudeDir, { recursive: true });
     writeFileSync(settingsPath, JSON.stringify(settings, null, 2) + "\n");
-    console.log(`Wired 4 guardrail hooks into ${settingsPath}`);
+    console.log(`Wired ${PLAN.length} guardrail hooks into ${settingsPath}`);
   }
 
   // Drop a starter config if the project doesn't have one yet.

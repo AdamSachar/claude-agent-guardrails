@@ -101,6 +101,12 @@ export function preToolContext(additionalContext: string): HookOutput {
   };
 }
 
+export function eventContext(event: HookEventName, additionalContext: string): HookOutput {
+  return {
+    hookSpecificOutput: { hookEventName: event, additionalContext },
+  };
+}
+
 export function systemWarning(message: string): HookOutput {
   return { systemMessage: message };
 }

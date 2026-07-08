@@ -36,4 +36,15 @@ describe("resolveConfig", () => {
       "warn",
     );
   });
+
+  it("merges context and instruction settings", () => {
+    const c = resolveConfig(
+      { context: { maxPromptChars: 50 }, instructions: { enabled: false } },
+      { CLAUDE_GUARDRAILS_MAX_TRANSCRIPT_BYTES: "1234" },
+    );
+    expect(c.context.maxPromptChars).toBe(50);
+    expect(c.context.maxTranscriptBytes).toBe(1234);
+    expect(c.instructions.enabled).toBe(false);
+    expect(c.instructions.instructionFiles).toEqual(DEFAULT_CONFIG.instructions.instructionFiles);
+  });
 });
