@@ -20,6 +20,8 @@ Deterministic cost, policy, context, and prompt-injection guardrails for Claude 
 
 The project is built for people who run Claude Code on real repositories and need deterministic guardrails around autonomous sessions.
 
+<img src="docs/demo.svg" alt="Terminal demo showing claude-agent-guardrails denying a risky command, warning on prompt injection, and wiring six hooks." width="920">
+
 ## Why this exists
 
 Claude Code hooks are powerful, but correct hook wiring is easy to get wrong. This package gives maintainers a tested default:

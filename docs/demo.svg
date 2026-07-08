@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="360" viewBox="0 0 920 360" role="img" aria-labelledby="title desc">
+  <title id="title">claude-agent-guardrails terminal demo</title>
+  <desc id="desc">A terminal demo showing policy denial, injection warning, and hook installation.</desc>
+  <rect width="920" height="360" rx="12" fill="#0f172a"/>
+  <rect x="0" y="0" width="920" height="42" rx="12" fill="#111827"/>
+  <circle cx="24" cy="21" r="6" fill="#ef4444"/>
+  <circle cx="44" cy="21" r="6" fill="#f59e0b"/>
+  <circle cx="64" cy="21" r="6" fill="#22c55e"/>
+  <text x="88" y="27" fill="#d1d5db" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14">claude-agent-guardrails demo</text>
+
+  <text x="28" y="78" fill="#93c5fd" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="15">$ claude-agent-guardrails-sim policy-gate examples/policy-deny.json</text>
+  <text x="28" y="106" fill="#fca5a5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="15">permissionDecision: deny</text>
+  <text x="28" y="130" fill="#e5e7eb" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="15">Blocked by claude-agent-guardrails policy gate.</text>
+
+  <text x="28" y="176" fill="#93c5fd" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="15">$ claude-agent-guardrails-sim injection-guard examples/injection-warn.json</text>
+  <text x="28" y="204" fill="#fde68a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="15">additionalContext: Possible prompt injection in CLAUDE.md</text>
+  <text x="28" y="228" fill="#e5e7eb" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="15">Review embedded instructions before the text enters agent context.</text>
+
+  <text x="28" y="274" fill="#93c5fd" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="15">$ claude-agent-guardrails /path/to/project</text>
+  <text x="28" y="302" fill="#86efac" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="15">Wired 6 guardrail hooks into .claude/settings.json</text>
+  <text x="28" y="326" fill="#e5e7eb" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="15">Restart Claude Code, then tune guardrails.config.json.</text>
+</svg>
