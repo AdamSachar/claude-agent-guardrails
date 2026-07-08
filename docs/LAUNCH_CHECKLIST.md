@@ -1,30 +1,31 @@
 # Launch checklist
 
-Nothing in this file has been pushed, published, or submitted yet.
+This file tracks the public launch state.
 
 ## Repo setup
 
-- [ ] Create public repo as `claude-agent-guardrails`.
-- [ ] Create public GitHub repo under Adam's account.
-- [ ] Push local repo.
-- [ ] Confirm default branch is `main`.
-- [ ] Confirm CI badge resolves.
-- [ ] Add repository topics: `claude-code`, `claude`, `hooks`, `ai-agents`, `guardrails`, `agent-safety`, `prompt-injection`, `cost-control`.
+- [x] Create public repo as `claude-agent-guardrails`.
+- [x] Create public GitHub repo under Adam's account.
+- [x] Push local repo.
+- [x] Confirm default branch is `main`.
+- [x] Confirm CI badge resolves.
+- [x] Add repository topics: `claude-code`, `claude`, `hooks`, `ai-agents`, `guardrails`, `agent-safety`, `typescript`.
 
 ## npm setup
 
 - [ ] Confirm package name is still available: `npm view claude-agent-guardrails`.
-- [ ] Log into npm.
+- [ ] Log into npm. Blocked until Adam signs in with `npm adduser`.
 - [ ] Run `npm run check`.
 - [ ] Run `npm run build`.
 - [ ] Run `npm run pack:dry`.
 - [ ] Publish with `npm publish --access public`.
 - [ ] Confirm `npx claude-agent-guardrails` installs into a throwaway project.
+- [x] Attach installable npm tarball to GitHub release as the interim install path.
 
 ## Trust signals
 
 - [ ] Add demo GIF to README.
-- [ ] Add OpenSSF Scorecard badge after public repo exists.
+- [x] Add OpenSSF Scorecard badge after public repo exists.
 - [ ] Add branch protection for `main`.
 - [ ] Enable GitHub private vulnerability reporting.
 - [ ] Open 10 beginner-friendly issues.
