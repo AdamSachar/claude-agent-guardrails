@@ -21,14 +21,15 @@ This file tracks the public launch state.
 - [ ] Publish with `npm publish --access public`.
 - [ ] Confirm `npx claude-agent-guardrails` installs into a throwaway project.
 - [x] Attach installable npm tarball to GitHub release as the interim install path.
+- [x] Smoke-test release tarball install in a throwaway project.
 
 ## Trust signals
 
 - [ ] Add demo GIF to README.
 - [x] Add OpenSSF Scorecard badge after public repo exists.
-- [ ] Add branch protection for `main`.
-- [ ] Enable GitHub private vulnerability reporting.
-- [ ] Open 10 beginner-friendly issues.
+- [x] Add branch protection for `main`.
+- [x] Enable GitHub private vulnerability reporting.
+- [x] Open 10 beginner-friendly issues.
 - [ ] Ask three developers to try install and open one issue or PR.
 
 ## Claude OSS application
