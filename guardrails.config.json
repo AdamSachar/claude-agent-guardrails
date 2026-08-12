@@ -15,18 +15,19 @@
   "policy": {
     "reason": "Blocked by claude-agent-guardrails policy gate. Override via an explicit operator decision.",
     "denyPatterns": [
-      "rm\\s+-rf\\s+/(?:\\s|$)",
-      "rm\\s+-rf\\s+~",
-      "rm\\s+-rf\\s+\\$HOME",
+      "rm\\s+-[a-zA-Z]*r[a-zA-Z]*f[a-zA-Z]*\\s+(?:-[a-zA-Z]+\\s+|--[a-z-]+\\s+)*(?:/|~|\\$HOME)(?:\\s|$|/?\\*|['\"\\)])",
+      "rm\\s+-[a-zA-Z]*f[a-zA-Z]*r[a-zA-Z]*\\s+(?:-[a-zA-Z]+\\s+|--[a-z-]+\\s+)*(?:/|~|\\$HOME)(?:\\s|$|/?\\*|['\"\\)])",
+      "rm\\s+(?:--(?:recursive|force|no-preserve-root)\\s+)+(?:-[a-zA-Z]+\\s+)*(?:/|~|\\$HOME)(?:\\s|$|/?\\*|['\"\\)])",
       ":\\(\\)\\s*\\{\\s*:\\|:&\\s*\\};:",
       "\\bmkfs\\b",
-      "dd\\s+if=.*of=/dev/",
+      "\\bdd\\s+.*\\bof=/dev/",
       ">\\s*/dev/sd",
       "chmod\\s+-R?\\s*777\\s+/",
+      "\\bfind\\s+/(?:\\s|$).*-(?:delete|exec)\\b",
       "curl[^|]*(?:credentials|secrets|\\.env|id_rsa)",
       "wget[^|]*(?:credentials|secrets|\\.env|id_rsa)",
-      "cat\\s+[^|]*(?:\\.ssh/|\\.aws/credentials|\\.env(?:\\s|$)|id_rsa)",
-      "git\\s+push\\b.*--force.*\\b(?:main|master)\\b",
+      "cat\\s+[^|]*(?:\\.ssh/|\\.aws/credentials|\\.env(?:\\.\\w+)?\\b|id_rsa)",
+      "git\\s+push\\b(?=.*(?:--force|--force-with-lease|-f\\b))(?=.*\\b(?:main|master)\\b)",
       "curl[^|]*\\|\\s*(?:sh|bash)\\b"
     ],
     "askPatterns": [
