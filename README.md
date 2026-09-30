@@ -167,4 +167,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-MIT © Adam Sacharowitz
+MIT

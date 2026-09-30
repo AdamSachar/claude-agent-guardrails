@@ -8,7 +8,7 @@ Security fixes target the latest published version.
 
 Please open a private GitHub security advisory when the repository is public.
 
-Until then, contact Adam Sacharowitz through the GitHub profile linked from the repository.
+Until then, contact the maintainer through the GitHub profile linked from the repository.
 
 ## Scope
 

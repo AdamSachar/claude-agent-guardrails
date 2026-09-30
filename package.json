@@ -4,7 +4,6 @@
   "description": "Deterministic cost, policy, context, and prompt-injection guardrails for Claude Code agents.",
   "type": "module",
   "license": "MIT",
-  "author": "Adam Sacharowitz",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AdamSachar/claude-agent-guardrails.git"
